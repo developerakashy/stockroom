@@ -23,10 +23,11 @@ try {
     store.db,
     fileURLToPath(new URL("../dist", import.meta.url)),
   );
-  const server = await app.listen({ port, host: "127.0.0.1" });
+  const host = "0.0.0.0";
+  const server = await app.listen({ port, host });
   const address = server.address();
   if (address && typeof address !== "string") {
-    console.log(`Commerce API listening on http://127.0.0.1:${address.port}`);
+    console.log(`Commerce API listening on http://${host}:${address.port}`);
   }
 } catch (error) {
   await close();

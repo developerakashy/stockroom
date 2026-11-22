@@ -73,171 +73,180 @@ Both mugs and the notebook came out of stock in the same
 database transaction.
 
 18
-00:00:49,900 --> 00:00:53,383
+00:00:50,020 --> 00:00:54,525
+If the caller also asks for the sold-out bottle, Stockroom
+refuses the whole order.
+
+19
+00:00:54,845 --> 00:00:57,643
+The mugs stay on the shelf, and no order is created.
+
+20
+00:01:01,900 --> 00:01:05,383
 At the packing desk, I open the dashboard and choose To
 pack.
 
-19
-00:00:53,663 --> 00:00:57,715
+21
+00:01:05,663 --> 00:01:09,715
 If the caller rings back, I can type the last few
 characters of their reference.
 
-20
-00:00:57,995 --> 00:01:01,130
+22
+00:01:09,995 --> 00:01:13,130
 Opening that result shows exactly what goes in the box.
 
-21
-00:01:01,410 --> 00:01:02,049
+23
+00:01:13,410 --> 00:01:14,049
 Two mugs.
 
-22
-00:01:02,329 --> 00:01:03,281
+24
+00:01:14,329 --> 00:01:15,281
 One notebook.
 
-23
-00:01:03,561 --> 00:01:04,954
+25
+00:01:15,561 --> 00:01:16,954
 Now I can mark it packed.
 
-24
-00:01:05,884 --> 00:01:07,741
+26
+00:01:17,884 --> 00:01:19,741
 Packed puts it in the ready to ship queue.
 
-25
-00:01:08,021 --> 00:01:10,796
+27
+00:01:20,021 --> 00:01:22,796
 I can leave it here until the courier actually takes it.
 
-26
-00:01:11,076 --> 00:01:12,945
+28
+00:01:23,076 --> 00:01:24,945
 After handoff, I mark it shipped.
 
-27
-00:01:13,225 --> 00:01:16,999
+29
+00:01:25,225 --> 00:01:28,999
 The timeline keeps the three timestamps, and this order is
 complete.
 
-28
-00:01:17,929 --> 00:01:20,216
+30
+00:01:29,929 --> 00:01:32,216
 Here's a different caller who changes their mind.
 
-29
-00:01:20,496 --> 00:01:22,992
+31
+00:01:32,496 --> 00:01:34,992
 Their order is still placed, so I can cancel it.
 
-30
-00:01:23,272 --> 00:01:26,279
+32
+00:01:35,272 --> 00:01:38,279
 The confirmation tells me the units will go back on the
 shelf.
 
-31
-00:01:26,559 --> 00:01:29,717
+33
+00:01:38,559 --> 00:01:41,717
 Once I confirm, the dashboard records the cancellation.
 
-32
-00:01:29,997 --> 00:01:32,446
+34
+00:01:41,997 --> 00:01:44,446
 The same option is available on a packed order.
 
-33
-00:01:33,376 --> 00:01:35,571
+35
+00:01:45,376 --> 00:01:47,571
 What if someone sends a bad request directly?
 
-34
-00:01:35,851 --> 00:01:39,949
+36
+00:01:47,851 --> 00:01:51,949
 In a fresh test database I asked for two mugs and one
 sold-out bottle.
 
-35
-00:01:40,229 --> 00:01:42,017
+37
+00:01:52,229 --> 00:01:54,017
 The server rejected the whole cart.
 
-36
-00:01:42,297 --> 00:01:45,002
+38
+00:01:54,297 --> 00:01:57,002
 Five mugs remained, and there were zero orders.
 
-37
-00:01:45,282 --> 00:01:46,954
+39
+00:01:57,282 --> 00:01:58,954
 Two mugs on their own went through.
 
-38
-00:01:47,234 --> 00:01:48,627
+40
+00:01:59,234 --> 00:02:00,627
 Stock dropped to three.
 
-39
-00:01:48,907 --> 00:01:50,718
+41
+00:02:00,907 --> 00:02:02,718
 Trying to jump straight to shipped failed.
 
-40
-00:01:50,998 --> 00:01:52,519
+42
+00:02:02,998 --> 00:02:04,519
 Cancelling restored five.
 
-41
-00:01:52,799 --> 00:01:56,154
+43
+00:02:04,799 --> 00:02:08,154
 Cancelling again returned a conflict, and the count stayed
 at five.
 
-42
-00:01:57,084 --> 00:02:00,324
+44
+00:02:09,084 --> 00:02:12,324
 The React interface keeps a draft in the tab with Zustand.
 
-43
-00:02:00,604 --> 00:02:03,750
+45
+00:02:12,604 --> 00:02:15,750
 TanStack Query refreshes the catalogue after checkout.
 
-44
-00:02:04,030 --> 00:02:07,919
+46
+00:02:16,030 --> 00:02:19,919
 Nest and Fastify receive the request, and Zod checks its
 shape.
 
-45
-00:02:08,199 --> 00:02:12,623
+47
+00:02:20,199 --> 00:02:24,623
 Drizzle locks the product rows in a consistent order
 before checking availability.
 
-46
-00:02:12,903 --> 00:02:16,003
+48
+00:02:24,903 --> 00:02:28,003
 On cancellation, the server locks the order first.
 
-47
-00:02:16,283 --> 00:02:20,787
+49
+00:02:28,283 --> 00:02:32,787
 A second request sees that it's already cancelled before
 it can add anything back.
 
-48
-00:02:21,717 --> 00:02:24,179
+50
+00:02:33,717 --> 00:02:36,179
 The README includes the commands to reproduce this.
 
-49
-00:02:24,459 --> 00:02:31,088
-Seventeen API tests passed, including placement,
+51
+00:02:36,459 --> 00:02:43,088
+Nineteen API tests passed, including placement,
 insufficient stock, and an invalid state change.
 
-50
-00:02:31,368 --> 00:02:33,307
+52
+00:02:43,368 --> 00:02:45,307
 Eleven browser tests passed as well.
 
-51
-00:02:33,587 --> 00:02:36,745
+53
+00:02:45,587 --> 00:02:48,745
 Then two server processes competed for the same stock.
 
-52
-00:02:37,025 --> 00:02:42,423
+54
+00:02:49,025 --> 00:02:54,423
 Out of a hundred and twenty checkout attempts, twelve
 orders took the twenty-four available notebooks.
 
-53
-00:02:42,703 --> 00:02:44,468
+55
+00:02:54,703 --> 00:02:56,468
 The other requests got a conflict.
 
-54
-00:02:44,748 --> 00:02:49,821
+56
+00:02:56,748 --> 00:03:01,821
 A restart preserved all thirteen orders from the full run
 and the exact inventory.
 
-55
-00:02:50,751 --> 00:02:54,571
+57
+00:03:02,751 --> 00:03:06,571
 Back at the desk, the shipped parcel and the cancelled
 order are both searchable.
 
-56
-00:02:54,851 --> 00:02:59,693
+58
+00:03:06,851 --> 00:03:11,693
 The next person answering the phone can see what happened,
 and how much stock they can promise.

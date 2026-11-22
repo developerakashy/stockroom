@@ -2,6 +2,10 @@
 
 A customer is on the phone asking for two mugs and a notebook. You need to know what’s in stock, what the order costs, and what reference to give them. Stockroom is the browser console where you take that order and where the next person finds it when it’s time to pack.
 
+Place two Studio Mugs and one Trail Bottle. The order is rejected, the mug stays at 5, and no order is saved. Place two mugs, then cancel. Stock returns to 5, and cancelling again leaves it at 5.
+
+[Pitch](https://cdn.pixelbin.io/v2/divine-bar-4a4231/original/Stockroom-Pitch3.mp4) · [Rejected cart](pitch/Stockroom-Failed-Checkout.png)
+
 ## Setup and run
 
 Use Docker with the Compose plugin, Node.js 24 or newer, and npm. Docker starts PostgreSQL 16 on localhost port 5432 and creates `stockroom` and `stockroom_test` on first initialization of the named volume.
@@ -49,7 +53,7 @@ If you’re already on **Dashboard**, you can add products from the recommendati
 
 ### When the order is ready to leave
 
-On **Dashboard**, select **To pack** to see the oldest orders first, or search by reference. Open the order to check the items and quantities. Select **Pack** once the parcel is packed. It moves to **Ready to ship**, where you can mark it shipped after handoff.
+On **Dashboard**, select **To pack** to see the oldest orders first, or search by reference. The four queue numbers count every order. The table shows the first 100 matches, and a reference search still finds an order outside that page. Open the order to check the items and quantities. Select **Pack** once the parcel is packed. It moves to **Ready to ship**, where you can mark it shipped after handoff.
 
 If the customer calls to cancel before shipping, find the reference and confirm **Cancel order**. Stockroom puts the units back into available stock. The order stays searchable, and its details show the fulfilment times Stockroom recorded.
 
