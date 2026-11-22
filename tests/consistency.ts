@@ -44,10 +44,12 @@ function startServer(databaseUrl: string, processes: ChildProcess[]) {
     });
     server.stdout.on("data", (chunk) => {
       stdout += chunk.toString();
-      const url = stdout.match(/http:\/\/127\.0\.0\.1:\d+/)?.[0];
-      if (!url) return;
+      const port = stdout.match(
+        /^Commerce API listening on http:\/\/(?:0\.0\.0\.0|127\.0\.0\.1):(\d+)\r?\n/m,
+      )?.[1];
+      if (!port) return;
       clearTimeout(timer);
-      resolve(url);
+      resolve(`http://127.0.0.1:${port}`);
     });
     server.once("error", (error) => {
       clearTimeout(timer);
