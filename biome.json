@@ -1,0 +1,15 @@
+{
+  "files": {
+    "includes": [
+      "**",
+      "!.agents/skills",
+      "!dist",
+      "!playwright-report",
+      "!test-results"
+    ]
+  },
+  "javascript": { "parser": { "unsafeParameterDecoratorsEnabled": true } },
+  "formatter": { "indentStyle": "space" },
+  "linter": { "enabled": true },
+  "css": { "parser": { "tailwindDirectives": true } }
+}
